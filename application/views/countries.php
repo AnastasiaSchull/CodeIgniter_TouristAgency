@@ -2,7 +2,7 @@
 $this->load->view('header');
 echo '<h2>'.$title.'</h2>';
 
-echo '<table class="table table-striped">';
+echo '<table class="table table-striped form-margin">';
 	foreach($countries as $c)
 	{
 		echo '<tr>';

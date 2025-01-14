@@ -22,3 +22,82 @@ footer{
 #myCarousel{
 	margin:0;
 }
+
+/* Добавленные стили для формы */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    background: #e7eaf1 !important;
+}
+
+.form-container {
+    margin: 20px;
+    padding: 10px;
+}
+
+label {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+textarea {
+   margin-bottom: -10px;
+    height: 30px;
+	width: calc(100% - 120px); /* Растягиваем элементы на всю ширину */
+    max-width: 200px;
+}
+
+input[type="text"] {
+    margin-bottom: -10px; 
+	margin-left: 5px;
+	width: calc(100% - 120px); /* Растягиваем элементы на всю ширину */
+    max-width: 200px;
+}
+
+select {
+    margin-bottom: 10px;
+    padding: 5px;
+	width: calc(100% - 120px); /* Растягиваем элементы на всю ширину */
+    max-width: 200px;
+}
+
+.form-row {
+	display: flex;
+    flex-wrap: wrap; /* Элементы перенесутся на новую строку, если не хватит места */
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-row .full-width {
+    flex: 1 1 100%; /* Занимает всю ширину */
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #5cb85c;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.form-margin {
+	margin-top:50px;
+	margin-left: 30px;
+}
+
+h2{
+	.form-margin 
+}
+
+table{
+    margin-left: 30px;
+}
+
+th, tr, td{
+     padding: 5px;
+}

@@ -55,5 +55,35 @@ class Home_model extends CI_Model
 		return $query->result_array();
   }
 
+  public function getHotels()
+	{
+		$query = $this->db->get('hotels');
+		return $query->result_array();
+	}
+
+  public function createHotel($data)
+	{
+		$this->db->insert('hotels', $data);
+	}
+
+  public function deleteHotel($id)
+	{
+		$this->db->delete('hotels', array('id' => $id));
+	}
+
+  public function updateHotel($id, $data)
+	{
+		$this->db->where('id', $id);
+		$this->db->update('hotels', $data);
+	}
+
+  public function getHotelById($id)
+	{
+		$query = $this->db->get_where('hotels', array('id' => $id));
+		return $query->row_array();
+	}
+
+  
+	
 }
 ?>

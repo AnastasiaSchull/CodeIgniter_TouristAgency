@@ -8,7 +8,7 @@ $data['accept-charset']='utf8';
 и делают валидацию данных формы совместно с библиотекой form_validation намного проще.
 */
 echo form_open('home/createCity',$data);
-echo "<div class='col-md-offset-4'>";
+echo "<div class='col-md-offset-4 form-margin'>";
 echo '&nbsp;';
 echo '<select name="countryid">';
 foreach ($countries as $l){

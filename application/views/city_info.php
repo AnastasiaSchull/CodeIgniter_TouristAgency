@@ -1,6 +1,6 @@
 <?php
 $this->load->view('header');
-echo "<div class='col-md-offset-1'>";
+echo "<div class='col-md-offset-1 form-margin'>";
 	echo '<h2>'.$title.$country[0]['country'].'</h2>';
 
 	foreach ($city as $l){

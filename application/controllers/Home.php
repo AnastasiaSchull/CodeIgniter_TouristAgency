@@ -97,5 +97,68 @@ class Home extends CI_Controller
 			$this->load->view('city_info',$data);
 		}
 	}
+
+    public function createHotel()
+{
+    $send = $this->input->post('send');
+    if (!$send) {
+        $data['countries'] = $this->home_model->getCountries();
+        $data['cities'] = $this->home_model->getCity();
+        $this->load->view('create_form_hotel', $data);
+    } else {
+        $hotelData = array(
+            'hotel' => $this->input->post('hotel'),
+            'cityid' => $this->input->post('cityid'),
+            'countryid' => $this->input->post('countryid'),
+            'stars' => $this->input->post('stars'),
+            'cost' => $this->input->post('cost'),
+            'info' => $this->input->post('info')
+        );
+        $this->home_model->createHotel($hotelData);
+        redirect('home/index');
+    }
 }
+
+public function deleteHotel()
+{
+    $send = $this->input->post('send');
+    if (!$send) {
+        $data['hotels'] = $this->home_model->getHotels();
+        $this->load->view('delete_form_hotel', $data);
+    } else {
+        $id = $this->input->post('hotelid');
+        $this->home_model->deleteHotel($id);
+        redirect('home/index');
+    }
+}
+
+public function editHotel($id)
+{
+    $send = $this->input->post('send');
+    if (!$send) {
+        $data['hotel'] = $this->home_model->getHotelById($id);
+        $data['countries'] = $this->home_model->getCountries();
+        $data['cities'] = $this->home_model->getCity();
+        $this->load->view('edit_form_hotel', $data);
+    } else {
+        $hotelData = array(
+            'hotel' => $this->input->post('hotel'),
+            'cityid' => $this->input->post('cityid'),
+            'countryid' => $this->input->post('countryid'),
+            'stars' => $this->input->post('stars'),
+            'cost' => $this->input->post('cost'),
+            'info' => $this->input->post('info')
+        );
+        $this->home_model->updateHotel($id, $hotelData);
+        redirect('home/index');
+    }
+}
+public function getHotels()
+{
+    $data['hotels'] = $this->home_model->getHotels();
+    $this->load->view('hotels_list', $data);
+}
+
+
+	}
 ?>

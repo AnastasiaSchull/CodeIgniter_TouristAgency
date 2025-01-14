@@ -3,7 +3,7 @@ $this->load->view('header');
 
 $st['class']='form-horizontal';
 echo form_open('home/getCityByCountry',$st);
-echo '<div class="col-md-offset-3">';
+echo '<div class="col-md-offset-3 form-margin">';
 echo form_label('Выберите страну: ','countryid',array('class'=>'control-label'));
 echo '&nbsp;';
 echo '<select name="countryid">';

@@ -8,7 +8,7 @@ $data['accept-charset']='utf8';
 и делают валидацию данных формы совместно с библиотекой form_validation намного проще.
 */
 echo form_open('home/createCountry',$data);
-echo "<div class='col-md-offset-4'>";
+echo "<div class='col-md-offset-4 form-margin'>";
 	$inp=array('name'=>'country','class'=>'col-md-2', 'style'=>'color:green;margin:5px;', 
 		'placeholder'=>'Введите название страны','type'=>'text');
 	echo form_input($inp);
