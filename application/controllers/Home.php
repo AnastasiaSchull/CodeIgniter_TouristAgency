@@ -132,33 +132,74 @@ public function deleteHotel()
     }
 }
 
-public function editHotel($id)
-{
-    $send = $this->input->post('send');
-    if (!$send) {
-        $data['hotel'] = $this->home_model->getHotelById($id);
-        $data['countries'] = $this->home_model->getCountries();
-        $data['cities'] = $this->home_model->getCity();
-        $this->load->view('edit_form_hotel', $data);
-    } else {
-        $hotelData = array(
-            'hotel' => $this->input->post('hotel'),
-            'cityid' => $this->input->post('cityid'),
-            'countryid' => $this->input->post('countryid'),
-            'stars' => $this->input->post('stars'),
-            'cost' => $this->input->post('cost'),
-            'info' => $this->input->post('info')
-        );
-        $this->home_model->updateHotel($id, $hotelData);
-        redirect('home/index');
-    }
-}
 public function getHotels()
 {
     $data['hotels'] = $this->home_model->getHotels();
     $this->load->view('hotels_list', $data);
 }
 
+public function editCountry()
+{
+    $data['countries'] = $this->home_model->getCountries();
+    $this->load->view('edit_country', $data);
+}
 
-	}
+public function editCity()
+{
+    $data['cities'] = $this->home_model->getCity();
+    $this->load->view('edit_city', $data);
+}
+
+public function editHotel()
+{
+    $data['hotels'] = $this->home_model->getHotels();
+    $this->load->view('edit_hotel', $data);
+}
+
+public function updateCountry()
+{
+    $id = $this->input->post('countryid');
+    $newName = $this->input->post('countryName');
+    $this->home_model->updateCountry($id, $newName);
+    redirect('home/index');
+}
+
+public function updateCity()
+{
+    $id = $this->input->post('cityid');
+    $newName = $this->input->post('cityName');
+    $this->home_model->updateCity($id, $newName);
+    redirect('home/index');
+}
+
+public function updateHotel()
+{
+    $id = $this->input->post('hotelid');
+    $hotelData = [
+        'hotel' => $this->input->post('hotelName'),
+        'stars' => $this->input->post('stars'),
+        'cost' => $this->input->post('cost'),
+        'info' => $this->input->post('info')
+    ];
+    
+    $this->home_model->updateHotel($id, $hotelData);
+    redirect('home/index');
+}
+
+
+public function register()
+{
+    $this->load->view('register_view');
+}
+
+public function getHotelData()
+{
+    $hotelId = $this->input->post('hotelid');
+    $hotelData = $this->home_model->getHotelById($hotelId);
+
+    header('Content-Type: application/json'); // заголовок JSON
+    echo json_encode($hotelData);
+    exit;
+}
+}
 ?>

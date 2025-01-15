@@ -39,6 +39,9 @@
 		<li>
 			<a href="<?php echo site_url('home/getHotels'); ?>">Список отелей</a>
 		</li>
+		<li>
+            <a href="<?php echo site_url('home/register'); ?>">Редактировать</a>
+        </li>
 
       </ul>
     </div>
