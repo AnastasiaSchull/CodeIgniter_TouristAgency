@@ -90,7 +90,8 @@ class Home extends CI_Controller
 		{
 			$id=$this->input->post('countryid');
 			$cities=$this->home_model->getCitiesById($id);
-			$country=$this->home_model->getCountryById($id);
+			//$country=$this->home_model->getCountryById($id);
+            $country = $this->home_model->getCountryById($id, false); // возвращает массив строк
 			$data['country']=$country;
 			$data['city']=$cities;
 			$data['title']='Страна: ';
@@ -201,5 +202,38 @@ public function getHotelData()
     echo json_encode($hotelData);
     exit;
 }
+
+public function getHotelsByCountry()
+{
+    if (!$this->input->post('send')) {
+        $data['countries'] = $this->home_model->getCountries();
+        $this->load->view('form_country_hotel', $data);
+    } else {       
+        $countryId = $this->input->post('countryid'); // id выбранной страны      
+        $data['country'] = $this->home_model->getCountryById($countryId, true); // возвращает 1 строку
+
+       $data['cities'] = $this->home_model->getCitiesById($countryId);
+        $data['hotels'] = $this->home_model->getHotelsByCountryId($countryId); // отели конкретной страны
+       
+        if (empty($data['country'])) {
+            show_error('Страна не найдена', 404);
+        }
+       // var_dump($data);//для отладки
+        $this->load->view('cities_with_hotels', $data); 
+    }
+}
+
+public function getHotelsByCity()
+{
+    $cityId = $this->input->post('cityid'); // id города из POST-запроса
+
+    if (empty($cityId)) {
+        show_error('Город не выбран', 400);
+    }
+    $data['hotels'] = $this->home_model->getHotelsByCityId($cityId);
+    $data['city'] = $this->home_model->getCityById($cityId);
+    $this->load->view('hotels_in_city', $data);
+}
+
 }
 ?>

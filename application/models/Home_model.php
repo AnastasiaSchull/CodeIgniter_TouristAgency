@@ -43,16 +43,23 @@ class Home_model extends CI_Model
 			$this->db->delete('cities', $data);
 	}
 	
-	public function getCountryById($id)
-		{
-			$query = $this->db->get_where('countries', array('id' => $id));
-			return $query->result_array();
+	public function getCountryById($id, $asRow = true)
+	{
+		$query = $this->db->get_where('countries', array('id' => $id));
+		return $asRow ? $query->row_array() : $query->result_array();
 	}
 	
+
 	public function getCitiesById($id)
-		{
+		{ 			
 			$query = $this->db->get_where('cities', array('countryid' => $id));
 			return $query->result_array();
+	}
+
+	public function getCityById($cityId)
+	{
+		$query = $this->db->get_where('cities', array('id' => $cityId));
+		return $query->row_array();
 	}
 
 	public function getHotels()
@@ -104,6 +111,20 @@ class Home_model extends CI_Model
     $this->db->where('id', $id);
     $this->db->update('cities', $data);
     }
+
+		public function getHotelsByCountryId($countryId)
+	{
+		$this->db->where('countryid', $countryId);
+		$query = $this->db->get('hotels');
+		return $query->result_array();
+	}
+
+	public function getHotelsByCityId($cityId)
+	{
+		$this->db->where('cityid', $cityId);
+		$query = $this->db->get('hotels');
+		return $query->result_array();
+	}
 
 }
 ?>

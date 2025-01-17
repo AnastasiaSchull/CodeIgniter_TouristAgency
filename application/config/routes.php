@@ -56,4 +56,8 @@ $route['register'] = 'home/register';
 $route['editCountry'] = 'home/editCountry';
 $route['editCity'] = 'home/editCity';
 $route['editHotel'] = 'home/editHotel';
+$route['getHotelsByCountry'] = 'home/getHotelsByCountry';
+$route['getHotelsByCity'] = 'home/getHotelsByCity';
+$route['home/getHotelsByCity'] = 'home/getHotelsByCity';
+
 

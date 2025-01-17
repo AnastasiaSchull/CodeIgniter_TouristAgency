@@ -38,11 +38,13 @@
 		</li>
 		<li>
 			<a href="<?php echo site_url('home/getHotels'); ?>">Список отелей</a>
+		</li>		
+		<li>
+			<a href="<?php echo site_url('home/getHotelsByCountry'); ?>">Отели конкретной страны/города</a>
 		</li>
 		<li>
             <a href="<?php echo site_url('home/register'); ?>">Редактировать</a>
         </li>
-
       </ul>
     </div>
   </div>
