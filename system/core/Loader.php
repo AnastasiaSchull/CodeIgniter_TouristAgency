@@ -49,7 +49,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link		https://codeigniter.com/user_guide/libraries/loader.html
  */
 class CI_Loader {
-
+	public $form_validation;//так как в PHP 8.2 запрещено динамическое создание свойств для объектов, то свойства должны быть заранее объявлены
+	public $user_model;
 	// All these are set automatically. Don't mess with them.
 	/**
 	 * Nesting level of the output buffering mechanism
@@ -947,7 +948,7 @@ class CI_Loader {
 				$this->$_ci_key =& $_ci_CI->$_ci_key;
 			}
 		}
-
+		
 		/*
 		 * Extract and cache variables
 		 *
@@ -993,7 +994,7 @@ class CI_Loader {
 			@ob_end_clean();
 			return $buffer;
 		}
-
+		
 		/*
 		 * Flush the buffer... or buff the flusher?
 		 *
@@ -1068,7 +1069,7 @@ class CI_Loader {
 				$property = strtolower($class);
 				isset($this->_ci_varmap[$property]) && $property = $this->_ci_varmap[$property];
 			}
-
+			
 			$CI =& get_instance();
 			if (isset($CI->$property))
 			{

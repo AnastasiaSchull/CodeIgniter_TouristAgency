@@ -1,24 +1,32 @@
 <?php
 
 class Home extends CI_Controller 
-{
+{ 
+    public $form_validation;   
+    public $session;
 	public $exceptions;
 	public $home_model;
 	public function __construct()
   {
   	parent::__construct();
-    $this->load->model('home_model');
+    $this->load->model('home_model');  
+    $this->load->library('form_validation');
   }
 
-  public function index()
-  {
-  	$data['countries']=$this->home_model->getCountries();
-  	$data['title']='Список стран:';
-  	$this->load->view('countries',$data);
-  }
+public function index()
+{
+    if (!$this->session->userdata('user')) {
+        $data['message'] = "Добро пожаловать в турагентство! Войдите или зарегистрируйтесь.";
+        $this->load->view('welcome_view', $data);
+    } else {
+        $data['countries'] = $this->home_model->getCountries();
+        $data['title'] = 'Список стран:';
+        $this->load->view('countries', $data);
+    }
+}
 
   public function createCountry()
-  {
+  {      
 		$send=$this->input->post('send');
 		if(!$send)
 			$this->load->view('create_form_country');
@@ -188,9 +196,9 @@ public function updateHotel()
 }
 
 
-public function register()
+public function edit()
 {
-    $this->load->view('register_view');
+    $this->load->view('edit_view');
 }
 
 public function getHotelData()
