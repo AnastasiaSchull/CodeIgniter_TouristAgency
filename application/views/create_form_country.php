@@ -10,9 +10,9 @@ $data['accept-charset']='utf8';
 echo form_open('home/createCountry',$data);
 echo "<div class='col-md-offset-4 form-margin'>";
 	$inp=array('name'=>'country','class'=>'col-md-2', 'style'=>'color:green;margin:5px;', 
-		'placeholder'=>'Введите название страны','type'=>'text');
+		'placeholder'=>'Enter country name','type'=>'text');
 	echo form_input($inp);
-	echo form_submit(array('name'=>'send','value'=>'Отправить', 
+	echo form_submit(array('name'=>'send','value'=>'Submit', 
 		'class'=>'btn btn-sm btn-success col-sm-2'));
 echo "</div>";
 echo form_close();

@@ -19,9 +19,9 @@ foreach ($countries as $l){
 echo '</select>';
 echo '&nbsp;';
 	$inp=array('name'=>'city','class'=>'col-md-2', 'style'=>'color:green;margin:5px;', 
-		'placeholder'=>'Введите название города','type'=>'text');
+		'placeholder'=>'Enter city name','type'=>'text');
 	echo form_input($inp);
-	echo form_submit(array('name'=>'send','value'=>'Отправить', 
+	echo form_submit(array('name'=>'send','value'=>'Submit', 
 		'class'=>'btn btn-sm btn-success col-sm-2'));
 echo "</div>";
 echo form_close();

@@ -4,7 +4,7 @@ $this->load->view('header');
 $st['class']='form-horizontal';
 echo form_open('home/deleteCity',$st);
 echo '<div class="col-md-offset-3 form-margin">';
-echo form_label('Выберите город: ','cityid',array('class'=>'control-label'));
+echo form_label('Select a city: ','cityid',array('class'=>'control-label'));
 echo '&nbsp;';
 echo '<select name="cityid">';
 foreach ($list as $l){

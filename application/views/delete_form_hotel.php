@@ -3,7 +3,7 @@ $this->load->view('header');
 
 echo form_open('home/deleteHotel');
 echo '<div class="col-md-offset-3 form-margin">';
-echo form_label('Select Hotel:', 'hotelid');
+echo form_label('Select а Hotel:', 'hotelid');
 echo '<select name="hotelid">';
 foreach ($hotels as $hotel) {
     echo '<option value="' . $hotel['id'] . '">' . $hotel['hotel'] . '</option>';

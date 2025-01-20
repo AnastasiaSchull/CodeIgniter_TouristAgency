@@ -16,11 +16,11 @@ class Home extends CI_Controller
 public function index()
 {
     if (!$this->session->userdata('user')) {
-        $data['message'] = "Добро пожаловать в турагентство! Войдите или зарегистрируйтесь.";
+        $data['message'] = "Welcome to the travel agency! Please log in or register.";
         $this->load->view('welcome_view', $data);
     } else {
         $data['countries'] = $this->home_model->getCountries();
-        $data['title'] = 'Список стран:';
+        $data['title'] = 'List of countries:';
         $this->load->view('countries', $data);
     }
 }
@@ -107,27 +107,6 @@ public function index()
 		}
 	}
 
-    public function createHotel()
-{
-    $send = $this->input->post('send');
-    if (!$send) {
-        $data['countries'] = $this->home_model->getCountries();
-        $data['cities'] = $this->home_model->getCity();
-        $this->load->view('create_form_hotel', $data);
-    } else {
-        $hotelData = array(
-            'hotel' => $this->input->post('hotel'),
-            'cityid' => $this->input->post('cityid'),
-            'countryid' => $this->input->post('countryid'),
-            'stars' => $this->input->post('stars'),
-            'cost' => $this->input->post('cost'),
-            'info' => $this->input->post('info')
-        );
-        $this->home_model->createHotel($hotelData);
-        redirect('home/index');
-    }
-}
-
 public function deleteHotel()
 {
     $send = $this->input->post('send');
@@ -192,6 +171,34 @@ public function updateHotel()
     ];
     
     $this->home_model->updateHotel($id, $hotelData);
+
+     // обрабатываем загружаемые фотографии
+     if (!empty($_FILES['images']['name'][0])) {
+        $this->load->library('upload');
+        $files = $_FILES['images'];
+        for ($i = 0; $i < count($files['name']); $i++) {
+            $_FILES['file']['name'] = $files['name'][$i];
+            $_FILES['file']['type'] = $files['type'][$i];
+            $_FILES['file']['tmp_name'] = $files['tmp_name'][$i];
+            $_FILES['file']['error'] = $files['error'][$i];
+            $_FILES['file']['size'] = $files['size'][$i];
+
+            $config['upload_path'] = './uploads/';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['max_size'] = 2048;
+            $config['file_name'] = uniqid();
+
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('file')) {
+                $uploadData = $this->upload->data();
+                $imagePath = 'uploads/' . $uploadData['file_name'];
+
+                // сохраняем путь картинки в таблицу images
+                $this->home_model->insertImage(['imagepath' => $imagePath, 'hotelid' => $id]);
+            }
+        }
+    }
     redirect('home/index');
 }
 
@@ -242,6 +249,68 @@ public function getHotelsByCity()
     $data['city'] = $this->home_model->getCityById($cityId);
     $this->load->view('hotels_in_city', $data);
 }
+
+public function createHotel()
+{
+    $this->form_validation->set_rules('hotel', 'Hotel Name', 'required');
+    $this->form_validation->set_rules('countryid', 'Country', 'required');
+    $this->form_validation->set_rules('cityid', 'City', 'required');
+    $this->form_validation->set_rules('stars', 'Stars', 'required|integer');
+    $this->form_validation->set_rules('cost', 'Cost', 'required|numeric');
+    $this->form_validation->set_rules('info', 'Info', 'required');
+
+    if ($this->form_validation->run() === FALSE) {
+        $data['countries'] = $this->home_model->getCountries();
+        $data['cities'] = $this->home_model->getCity();
+        $this->load->view('create_form_hotel', $data);
+    } else {
+        $hotelData = [
+            'hotel' => $this->input->post('hotel'),
+            'countryid' => $this->input->post('countryid'),
+            'cityid' => $this->input->post('cityid'),
+            'stars' => $this->input->post('stars'),
+            'cost' => $this->input->post('cost'),
+            'info' => $this->input->post('info'),
+        ];
+
+        $hotelId = $this->home_model->insertHotel($hotelData); // сохранение отеля
+
+        // обработка загруженных файлов
+        if (!empty($_FILES['images']['name'][0])) {
+            $this->load->library('upload');
+            $files = $_FILES['images'];
+            for ($i = 0; $i < count($files['name']); $i++) {
+                $_FILES['file']['name'] = $files['name'][$i];
+                $_FILES['file']['type'] = $files['type'][$i];
+                $_FILES['file']['tmp_name'] = $files['tmp_name'][$i];
+                $_FILES['file']['error'] = $files['error'][$i];
+                $_FILES['file']['size'] = $files['size'][$i];
+
+                $config['upload_path'] = './uploads/';
+                $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                $config['max_size'] = 2048;
+                $config['file_name'] = uniqid();
+
+                $this->upload->initialize($config);
+
+                if ($this->upload->do_upload('file')) {
+                    $uploadData = $this->upload->data();
+                    $imagePath = 'uploads/' . $uploadData['file_name'];
+
+                    // сохранение пути изображения в таблице images
+                    $this->home_model->insertImage(['imagepath' => $imagePath, 'hotelid' => $hotelId]);
+                } else {
+                    $errorMessage = $this->upload->display_errors('', '');
+                    echo "<script>alert('Ошибка загрузки: $errorMessage');</script>";
+                    die();
+                }
+            }
+        }
+
+        redirect('home/getHotels');
+    }
+}
+
 
 }
 ?>

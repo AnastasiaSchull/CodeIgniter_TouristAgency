@@ -1,7 +1,10 @@
 <?php
 $this->load->view('header');
 
-echo form_open('home/createHotel');
+//echo form_open('home/createHotel');
+//нужен form_open_multipart для работы с загрузкой файлов
+echo form_open_multipart('home/createHotel'); 
+
 // echo "<div class='col-md-offset-* form-margin'>";
 echo "<div class='form-container'>";
 echo form_label('Hotel Name:', 'hotel');
@@ -29,6 +32,12 @@ echo form_input('cost');
 
 echo form_label('Info:', 'info');
 echo form_textarea('info');
+
+echo '<div class="upload-container">'; // div с классом
+echo form_label('Upload Images:', 'images');
+echo form_upload(['name' => 'images[]', 'multiple' => 'multiple']); // multiple позволяет выбрать несколько файлов
+echo '</div>'; 
+
 
 echo form_submit('send', 'Add Hotel', ['class' => 'btn btn-success']);
 echo "</div>";

@@ -62,16 +62,38 @@ class Home_model extends CI_Model
 		return $query->row_array();
 	}
 
-	public function getHotels()
-		{
-			$query = $this->db->get('hotels');
-			return $query->result_array();
-		}
+	// public function getHotels()
+	// 	{
+	// 		$query = $this->db->get('hotels');
+	// 		return $query->result_array();
+	// 	}
+	public function getHotels() 
+	{
+		$this->db->select('hotels.*, images.imagepath');
+		$this->db->from('hotels');
+		$this->db->join('images', 'images.hotelid = hotels.id', 'left'); // присоединяем таблицу images
+		$this->db->where('images.imagepath LIKE', 'uploads%'); // добавляем условие для фильтрации
+		$this->db->group_by('hotels.id'); // группируем по id отеля, чтобы получить только одну запись
+		$query = $this->db->get();
+		return $query->result_array(); // возвращаем массив данных
+	}
+	
+	// public function createHotel($data)
+	// 	{
+	// 		$this->db->insert('hotels', $data);
+	// 	}
 
-	public function createHotel($data)
-		{
-			$this->db->insert('hotels', $data);
-		}
+	public function insertImage($data)
+	{
+		$this->db->insert('images', $data);
+	}
+	
+	public function insertHotel($data)
+	{
+		$this->db->insert('hotels', $data);
+		return $this->db->insert_id(); // возвращает ID последней вставленной записи
+	}
+	
 
 	public function deleteHotel($id)
 		{
@@ -121,8 +143,16 @@ class Home_model extends CI_Model
 
 	public function getHotelsByCityId($cityId)
 	{
-		$this->db->where('cityid', $cityId);
-		$query = $this->db->get('hotels');
+		// $this->db->where('cityid', $cityId);
+		// $query = $this->db->get('hotels');
+		// return $query->result_array();
+		$this->db->select('hotels.*, images.imagepath');
+		$this->db->from('hotels');
+		$this->db->join('images', 'images.hotelid = hotels.id', 'left'); // присоединяем табл images
+		$this->db->where('hotels.cityid', $cityId);
+		$this->db->where('images.imagepath LIKE', 'uploads%'); // добавляем условие для фильтрации imagepath
+		$this->db->group_by('hotels.id'); // один отель - одна строка
+		$query = $this->db->get();
 		return $query->result_array();
 	}
 
