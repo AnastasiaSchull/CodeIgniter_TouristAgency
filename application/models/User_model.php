@@ -35,7 +35,6 @@ class User_model extends CI_Model
 
     return false;
     }
-
        
     public function getUserRole($userId)
     {

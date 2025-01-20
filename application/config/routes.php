@@ -61,5 +61,5 @@ $route['getHotelsByCity'] = 'home/getHotelsByCity';
 $route['home/getHotelsByCity'] = 'home/getHotelsByCity';
 $route['user/register'] = 'user/register'; 
 $route['user/login'] = 'user/login';
-
+$route['home/addComment'] = 'home/addComment';
 

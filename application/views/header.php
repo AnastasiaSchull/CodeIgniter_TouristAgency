@@ -18,6 +18,7 @@
             <li><a href="<?php echo site_url('home/getCityByCountry'); ?>">List of cities</a></li>
             <li><a href="<?php echo site_url('home/getHotels'); ?>">List of hotels</a></li>
             <li><a href="<?php echo site_url('home/getHotelsByCountry'); ?>">Hotels by country/city</a></li>
+            <li><a href="<?php echo site_url('home/addComment'); ?>">Leave a Comment</a></li>
 
             <?php if ($this->session->userdata('user')['role'] == 2): ?>
                 <!-- ссылки, доступные только администратору , то есть пользователям с ролью==2, устанавливаем роль, например-->

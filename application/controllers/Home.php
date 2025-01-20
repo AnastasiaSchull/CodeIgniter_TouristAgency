@@ -309,7 +309,30 @@ public function createHotel()
 
         redirect('home/getHotels');
     }
+
 }
+
+public function addComment()
+{
+    $this->load->model('home_model');
+  
+    if ($this->input->post('submit')) {
+        $data = [
+            'user_id' => $this->session->userdata('user')['id'],
+            'hotel_id' => $this->input->post('hotel_id'),
+            'comment' => $this->input->post('comment'),
+            'posted' => date('Y-m-d H:i:s')
+        ];
+        // Вставляем данные в базу
+        $this->home_model->insertComment($data);
+
+        redirect('home/getHotels');
+    }
+
+    $data['hotels'] = $this->home_model->getHotels();
+     $this->load->view('add_comment', $data);
+}
+
 
 
 }
