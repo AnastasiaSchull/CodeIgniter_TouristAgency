@@ -112,6 +112,8 @@ td {
 body {
   font-family: 'Glyphicons', Georgia, sans-serif;
 }
-h1 {
+h1,
+h2 {
   font-family: 'Glyphicons', Georgia, serif;
+  color: blue;
 }

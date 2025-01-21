@@ -8,6 +8,7 @@
         <th>Stars</th>
         <th>Cost</th>
         <th>Info</th>
+        <th>Reviews</th>
     </tr>
     <?php foreach ($hotels as $hotel): ?>
         <tr>
@@ -19,10 +20,13 @@
                 <?php endif; ?>
             </td>
             <td><?php echo $hotel['hotel']; ?></td>
-            <td><?php echo $hotel['cityid']; ?></td>
+            <td><?php echo $hotel['city_name']; ?></td>
             <td><?php echo $hotel['stars']; ?></td>
             <td><?php echo $hotel['cost']; ?></td>
             <td><?php echo $hotel['info']; ?></td>
+            <td>
+            <?php echo !empty($hotel['reviews']) ? $hotel['reviews'] : 'No Reviews'; ?>
+            </td>
         </tr>
     <?php endforeach; ?>
 </table>

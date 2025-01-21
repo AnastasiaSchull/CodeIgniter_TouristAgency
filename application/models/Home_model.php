@@ -65,10 +65,14 @@ class Home_model extends CI_Model
 
 	public function getHotels() 
 	{
-		$this->db->select('hotels.*, images.imagepath');
+		//$this->db->select('hotels.*, images.imagepath');
+		$this->db->select('hotels.*, images.imagepath, cities.city as city_name, GROUP_CONCAT(CONCAT(users.login, " (", comments.posted, "): ", comments.comment) SEPARATOR "<br>") as reviews');
 		$this->db->from('hotels');
 		$this->db->join('images', 'images.hotelid = hotels.id', 'left'); // присоединяем таблицу images
 		$this->db->where('images.imagepath LIKE', 'uploads%'); // условие для фильтрации
+		$this->db->join('cities', 'cities.id = hotels.cityid', 'left'); // присоединяем таблицу cities
+		$this->db->join('comments', 'comments.hotel_id = hotels.id', 'left');
+        $this->db->join('users', 'users.id = comments.user_id', 'left');
 		$this->db->group_by('hotels.id'); // группируем по id отеля, чтобы получить только одну запись
 		$query = $this->db->get();
 		return $query->result_array(); // возвращаем массив данных
@@ -89,6 +93,8 @@ class Home_model extends CI_Model
 
 	public function deleteHotel($id)
 	{
+		// удаляем связанные комментарии
+		$this->db->delete('comments', array('hotel_id' => $id));
 		$this->db->delete('hotels', array('id' => $id));
 	}
 
